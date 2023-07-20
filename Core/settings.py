@@ -103,7 +103,7 @@ DATABASES = {
             "ENGINE": "django.db.backends.postgresql",
             "USER": "postgres",
             "PASSWORD": "djangopassword",
-            "HOST":"localhost"
+            # "HOST":"localhost"
             # "NAME": "onion",
             # "ENGINE": "django.db.backends.postgresql",
             # "USER": "postgres",
