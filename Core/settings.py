@@ -99,11 +99,16 @@ CORS_ORIGIN_ALLOW_ALL = True
 
 DATABASES = {
 'default': {
-            "NAME": "onion",
+            "NAME": "dbmb",
             "ENGINE": "django.db.backends.postgresql",
             "USER": "postgres",
-            "PASSWORD": "Country@123#",
+            "PASSWORD": "djangopassword",
             "HOST":"localhost"
+            # "NAME": "onion",
+            # "ENGINE": "django.db.backends.postgresql",
+            # "USER": "postgres",
+            # "PASSWORD": "Country@123#",
+            # "HOST":"localhost"
         }
 }
 
