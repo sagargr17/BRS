@@ -1,0 +1,216 @@
+{% extends 'header.html' %} {% block content %} {% load static %}
+
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+<link rel="stylesheet" href="{% static 'css/home.css' %}" />
+
+<!-- for searhing -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<link
+  rel="stylesheet"
+  href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css"
+/>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+<script defer src="https://unpkg.com/alpinejs@3.2.3/dist/cdn.min.js"></script>
+
+<script>
+  $(document).ready(function () {
+    $(function () {
+      $("#tags")
+        .autocomplete({
+          source: "/search_auto/",
+          select: function (event, ui) {
+            ui.item.appendTo(ui);
+          },
+          minLength: 2,
+        })
+        .data("ui-autocomplete")._renderItem = function (ul, item) {
+        item.label = item.title.replace(
+          new RegExp(
+            "(?![^&;]+;)(?!<[^<>]*)(" +
+              $.ui.autocomplete.escapeRegex(this.term) +
+              ")(?![^<>]*>)(?![^&;]+;)",
+            "gi"
+          ),
+          "<span style='font-weight:bold; color:black'>$1</span>"
+        );
+        item.author1 = item.author.replace(
+          new RegExp(
+            "(?![^&;]+;)(?!<[^<>]*)(" +
+              $.ui.autocomplete.escapeRegex(this.term) +
+              ")(?![^<>]*>)(?![^&;]+;)",
+            "gi"
+          ),
+          "<span style='font-weight:bold; color:black'>$1</span>"
+        );
+
+        return $("<li>")
+          .data("item.autocomplete", item)
+          .append(
+            '<a href="/getbook/' +
+              item.id +
+              '"> <div class="row"><img class="ml-3" src="' +
+              item.image +
+              '" height="60pc" width="60pc"/><div><p class="ml-2">' +
+              item.label +
+              '</p><p style="margin-top: -1pc; " class="ml-2 mb-0">By: ' +
+              item.author1 +
+              "</p></div></div></a>"
+          )
+          .appendTo(ul);
+      };
+    });
+  });
+</script>
+
+<script>
+  document.addEventListener("alpine:init", () => {
+    Alpine.data("slider", () => ({
+      currentIndex: 1,
+      images: [
+        "https://source.unsplash.com/1600x900/?beach",
+        "https://source.unsplash.com/1600x900/?cat",
+        "https://source.unsplash.com/1600x900/?dog",
+        "https://source.unsplash.com/1600x900/?lego",
+        "https://source.unsplash.com/1600x900/?textures&patterns",
+      ],
+      back() {
+        if (this.currentIndex > 1) {
+          this.currentIndex = this.currentIndex - 1;
+        }
+      },
+      next() {
+        if (this.currentIndex < this.images.length) {
+          this.currentIndex = this.currentIndex + 1;
+        } else if (this.currentIndex <= this.images.length) {
+          this.currentIndex = this.images.length - this.currentIndex + 1;
+        }
+      },
+    }));
+  });
+</script>
+
+{% comment %}
+<div class="row">
+  <img src="{% static 'image/book.jpg' %}" class="img" />
+</div>
+{% endcomment %}
+<div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img
+        class="d-block"
+        style="height: 400px; width: 95%"
+        src="https://i.insider.com/57502efcdd0895f7498b4692?width=750&format=jpeg&auto=webp"
+        alt="First slide"
+      />
+    </div>
+    <div class="carousel-item">
+      <img
+        class="d-block"
+        style="height: 400px; width: 95%"
+        src="https://images.pexels.com/photos/1029141/pexels-photo-1029141.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+        alt="Second slide"
+      />
+    </div>
+    <div class="carousel-item">
+      <img
+        class="d-block"
+        style="height: 400px; width: 95%"
+        src="https://images.pexels.com/photos/2663851/pexels-photo-2663851.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+        alt="Third slide"
+      />
+    </div>
+  </div>
+</div>
+
+<div id="sec3">
+  <div class="container">
+    <!-- <div class="row"> -->
+    <p class="book my-5">Discover and Recover Through Books!!!</p>
+    <form
+      class="form-inline my-2 my-lg-0 mx-7"
+      style="margin-left: 110px"
+      id="formsubmit"
+      name="form"
+    >
+      <i style="margin-bottom: 100px"  class="fa  fa-search search"></i>
+      <input
+        class="form-control mr-sm-2 inputs p-5"
+
+        name="search"
+        type="search"
+        style="margin-bottom: 100px; font-size:24px"
+        id="tags"
+        placeholder="Search book that you want to read by name or author..."
+        onkeydown="return (event.keyCode!=13);"
+      />
+    </form>
+    <!-- </div> -->
+  </div>
+</div>
+
+<div id="sec5" style="margin-left:60px">
+  <div class="container-fluid">
+    <div class="row">
+      <!-- to show genre according to category  -->
+      {% for category in category %}
+      <div class="dropdown col-md-3">
+        <p
+          class="btn button btn1 mb-5"
+          style="
+            padding-top: 100px;
+            padding-bottom:100px;
+            padding-right:160px;
+            padding-left:80px;
+            margin: 10px;
+            background-color: #f7f7f7;
+            border-style: double;
+            border-color: gray;
+            {% comment %} padding:50%             {% endcomment %}
+            "
+        >
+        
+          {{category.name}}
+
+      </p>
+
+        <div
+          class="drop"
+          style="
+            background-color: #ebe8e8;
+            margin-top: 0px;
+            top: 180px;
+            border-radius: 10px;
+            margin-left: 7px;
+            padding: 14px;
+          "
+        >
+          {% for subcat in category.genre_set.all|dictsort:'title' %}
+          <a
+            href="/bookson?subcategory={{subcat.id}}"
+            style="color: black; text-weight: bold;"
+            >{{subcat.title}}</a
+          >
+          {% endfor %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+<div class="row my-5" style="margin-left: 14px">
+  <img
+    src="{% static 'image/book1.jpg' %}"
+    class="img mb-2"
+    style="height: 30pc; margin-top: 40px"
+  />
+  <div class="centered col-md-6">
+    <h4>You know you've read a good</h4>
+    <h4>book when you turn the last page</h4>
+    <h4>and feel a little as if</h4>
+    <h4>you have lost a friend.</h4>
+  </div>
+</div>
+{% endblock %}

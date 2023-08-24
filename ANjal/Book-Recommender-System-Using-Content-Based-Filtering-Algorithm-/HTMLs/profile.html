@@ -1,0 +1,222 @@
+ {% comment %} {% extends 'header.html' %} {% endcomment %}
+{% comment %} {% block content %} {% endcomment %}
+{% load static %}
+    <link rel="stylesheet" href="{% static 'css/about.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+
+    
+
+
+    <section  style="background-color: #eee;">
+      <div class="container">
+        <div class="row d-flex justify-content-center align-items-center  h-100">
+          <div class="col-md-12 col-xl-4 py-5" style="width:700px">
+    
+            <div class="card py-5"  style="border-radius: 15px">
+              <div class="card-body text-left">
+                <div class="mt-3 mb-4">
+                  {% if img %}
+                  
+
+                  <a href="/deleteimage/" style="color:red; " >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-x-octagon-fill" viewBox="0 0 16 16">
+                      <path d="M11.46.146A.5.5 0 0 0 11.107 0H4.893a.5.5 0 0 0-.353.146L.146 4.54A.5.5 0 0 0 0 4.893v6.214a.5.5 0 0 0 .146.353l4.394 4.394a.5.5 0 0 0 .353.146h6.214a.5.5 0 0 0 .353-.146l4.394-4.394a.5.5 0 0 0 .146-.353V4.893a.5.5 0 0 0-.146-.353L11.46.146zm-6.106 4.5L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 1 1 .708-.708z"/>
+                    </svg>
+                 </a>
+                    <img class="human" src="{{img.image.url}}" alt=""  class="rounded-circle img-fluid" style="width: 120px; height:140px" >
+            
+                    
+                    {% comment %} <form  method="POST" action="/deleteimage/">
+                     {% csrf_token %}      
+
+                     <input type="submit" class="btn btn-block" value="Remove Profile" />                  
+                   </form> {% endcomment %}
+                   <div class="modal-body mt-5  pt-5" style="background-color:#dcf4f7; width:450px; border-radius:20px; padding-left:20px; padding-bottom:10px; padding-right:20px
+"  >
+                     <div class="form-group">
+                       <form  method="POST" enctype="multipart/form-data" action="/updateImage/">
+                         {% csrf_token %}
+                         <input type="file" name="updateimg" accept="image/*" required>           
+                         <input type="submit" class="btn btn-success mt-2  mr-5" style="margin-left:300px" value="Update profile"/>  
+                                        
+                       </form>
+                     </div>
+                   </div>  
+                
+                    
+                   
+                   
+                  
+
+
+                    
+                    
+                    {% else %}
+                  
+                    <img src=src="{{img.image.url}}" 
+                      class="rounded-circle img-fluid" style="width: 100px;" />
+                      {% endif %}
+                </div>
+
+                
+                <p style="font-size:30px; font-weight:bold" class="text-muted mb-2">{{request.user.username}}</p>
+                <p class="text-muted mb-4">{{request.user.email}} </p>
+                
+               
+                <div class="d-flex flex-start justify-content-sm-start  text-left mt-5 mb-2">
+                  <div>
+                    <p class="mb-2 ">{{request.user.date_joined}}</p>
+                    <p class="text-muted mb-0">Date Joined</p>
+                  </div>
+                  <div class="px-3 mx-5">
+                    <p class="mb-2 ">{{request.user.last_login}}</p>
+                    <p class="text-muted mb-0">Last-Login</p>
+                  </div>
+                    
+          
+                </div>
+              </div>
+            </div>
+    
+          </div>
+        </div>
+      </div>
+     
+
+
+    </section>
+
+
+    {% comment %} {% if request.user.is_authenticated %}  {% endcomment %}
+  {% comment %} <div class="card ml-5" style="width: 30rem;"> {% endcomment %}
+          {% comment %} <ul class="list-group list-group-flush">
+            <li class="list-group-item"><b>Name: </b></li>
+            <li class="list-group-item"><b>Username: </b> {{request.user.username}}</li>
+            <li class="list-group-item"><b>Email: </b> {{request.user.email}}</li>
+            <li class="list-group-item"><b>Date_Joined: </b> {{request.user.date_joined}}</li>
+            <li class="list-group-item"><b>Last-Login: </b> {{request.user.last_login}}</li> {% endcomment %}
+            {% comment %} <li class="list-group-item">
+              <input type="submit" class="btn add btn-block" data-toggle="modal" data-target="#exampleModal" value="Change Password" style="color:white;">
+            </li> {% endcomment %}
+          </ul>
+        </div>
+
+
+    
+
+
+    {% comment %} {% endif %} {% endcomment %}
+
+    {% comment %} <div class="col-md-8 mt-3">
+
+      {% if request.user.is_authenticated %} 
+        {% if not request.user.is_staff %} 
+      
+        {% endif %}
+      {% endif %}
+     </div>
+    </div> {% endcomment %}
+   
+    {% comment %} <p class="profile">My Profile</p>
+      {% for message in messages %}
+      <div class="alert alert-info">
+          {{message}}
+      </div>
+      {% endfor %}
+
+    <div class="row">
+      <div class="col-md-4">
+      {% if img %}
+        <img class="human" src="{{img.image.url}}" alt="">
+        {% else %}
+        <img class="human" src="../media/user.png" alt="">
+        {% endif %}
+      </div>
+   
+
+        
+      <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"  data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">    
+        <h5 class="modal-title" id="exampleModalLabel">Add Profile</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div class="modal-body">
+          <div class="form-group">
+            
+          </div>
+          </div>     
+          </div>
+          </div>
+        </div>
+
+        <div class="modal fade" id="updateProfile" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"  data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">    
+        <h5 class="modal-title" id="exampleModalLabel">Update Profile</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div class="modal-body">
+          <div class="form-group">
+            <form  method="POST" enctype="multipart/form-data" action="/updateImage/">
+              {% csrf_token %}
+              <input type="file" name="updateimg" accept="image/*" required>           
+              <input type="submit" class="btn btn-info" value="Update profile"/>  
+                             
+            </form>
+          </div>
+        </div>     
+        </div>
+        </div>
+        </div>
+      
+    
+
+    </div>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"  data-keyboard="false" data-backdrop="static">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">    
+           <h5 class="modal-title" id="exampleModalLabel">Update Password</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          
+          <div class="modal-body">
+            <div class="form-group">
+              <form  method="POST">
+                {% csrf_token %}
+
+                {% if form.non_field_errors %}
+                  {% for error in form.non_field_errors %}
+                   <p>{{error}}</p> 
+                  {% endfor %}
+                {% endif %}
+          
+                {% for fm in form %}
+                  {{fm.label_tag}} {{fm}} 
+                  <div style="color:red;">
+                    {{fm.errors | striptags}}
+                  </div><br>
+                {% endfor %}
+                  
+                <input type="submit" id="submit" class="btn btn-info" value="Update" name="sub"/>                  
+              </form>
+            </div>
+          </div>     
+        </div>
+      </div>
+    </div>
+   {% endcomment %}
+{% comment %} {% endblock %} {% endcomment %}
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>

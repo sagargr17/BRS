@@ -1,0 +1,15 @@
+{% extends 'header.html' %}
+{% block content %}
+{% load static %}
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <p class="quote" style="font-size:40px; color:grabluey; margin-top:100px; margin-bottom:50px" > "Take a good book to bed with you - Thea Dorn"</p>
+
+    <div class="row mt-3">
+        {% for book in books %}         
+            <div class="col-md-2">
+                <a href="/getbook/{{book.id}}"  ><img class ='bookimage' style="height:300px; margin-bottom:40px; border:2px gray solid; border-radius:10px"  src="{{book.image}}" ></a>   
+            </div>
+        {% endfor %} 
+    </div>
+
+{% endblock %}

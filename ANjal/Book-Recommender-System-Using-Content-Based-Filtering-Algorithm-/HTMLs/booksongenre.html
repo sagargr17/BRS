@@ -1,0 +1,48 @@
+{% extends 'header.html' %} {% block content %} {% load static %}
+<link rel="stylesheet" href="{% static 'css/home.css' %}" />
+
+<p class="genrename mb-5">Books With {{name}}</p>
+
+<style>
+.box{
+    transition: box-shadow .3s;
+    border-radius:10px;
+    border: 2px solid #ccc;
+    background: #fff;
+    margin:10px
+
+}
+
+.box:hover {
+    box-shadow: 0 0 200px rgba(33,33,33,.2); 
+  }
+
+</style>
+
+
+<div
+  style="
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 98%;
+    margin-top: 10px;
+  "
+>
+  {% for book in books %}
+  <div >
+    <a href="/getbook/{{book.id}}" class="anchor" style="color:none">
+      <img
+        
+        src="{{book.image}}"
+        style="height: 350px; margin-left: 100px"
+        class="booky  box"
+      />
+    </a>
+    <div class="middle">
+      <h6 class="ml-2">{{book.title}} | By : {{book.author}}</h6>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}
